@@ -3,8 +3,8 @@ package Account;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import Bank.Check;
@@ -17,6 +17,7 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 	private String kyHan;
 	private float laiSuat = 0;
 	SimpleDateFormat day = new SimpleDateFormat("dd/MM/yyyy");
+	Scanner sc = new Scanner(System.in);
 	
 	public String toString() {
 		return ", " +maPIN +", " + kyHan+  ", " + laiSuat + ", " + day.format(ngayBdGui.getTime()) +", " + day.format(ngayTinhLai.getTime()) + ", "+ tongTienLai ;
@@ -115,11 +116,12 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 	}
 
 	@Override
-	public void RutTien() {
+	public boolean RutTien() {
 		// TODO Auto-generated method stub
 		Check ch = new Check();
 		System.out.println("\n--------------------------------------------------");
 		System.out.println("<<RÚT TIỀN>>");
+		System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
 		while(true)
 		{
 			try {
@@ -128,8 +130,10 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 				sc.nextLine();
 				if(money > 0 && money <= soDu)
 				{
-					if(ck.GioiHan(this))
-						return;
+					if (ck.GioiHanPIN(this)) 
+					{
+					    	return true;
+					} 
 					else
 					{
 						soDu -= money;
@@ -141,7 +145,7 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 						System.out.println("---------");
 						System.out.println("Nhấn ENTER để tiếp tục");
 					    sc.nextLine();
-						return;
+						return false;
 					}
 				}
 				else
@@ -149,16 +153,16 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 					System.out.println("<<Thông báo>>");
 					System.out.println("Số tiền rút không hợp lệ!!!");
 					if(ch.Choice())
-						return;
+						return false;
 				}
 			}
 			catch(Exception e)
 			{
-				System.out.print("Lỗi nhập liệu: ");
-				e.printStackTrace();
-				System.out.println();
-				if(ch.Choice())
-					return;
+				System.out.println("---------");
+				System.err.println("Lỗi nhập liệu");
+			    if (ck.Choice())
+			    	return false;
+			    sc.nextLine();
 			}
 		}	
 	}
@@ -167,7 +171,6 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 	{
 		do 
 		{
-			Scanner sc = new Scanner(System.in);
 			System.out.println("---------");
 			System.out.println("Bạn muốn gửi tiết kiệm theo kỳ hạn nào?");
 			System.out.println("1. Kỳ hạn 1 tháng với lãi xuất 0.25%");
@@ -288,9 +291,67 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 		System.out.println("Nhấn ENTER để tiếp tục");
 		sc.nextLine();
 	}
+		
+		public boolean SaveToPay(HashMap<String , TaiKhoanNganHang> listPay)
+		{
+			System.out.println("\n--------------------------------------------------");
+			System.out.println("<<Chuyển tiền đến tài khoản tiết kiệm>>");
+			System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
+			while(true)
+			{
+				try {
+					System.out.println("---------");
+					System.out.print("Nhập số tiền bạn muốn chuyển: ");
+					double money = sc.nextDouble();
+					sc.nextLine();
+					if (money > soDu || money < 0)
+					{
+						System.out.println("---------");
+						System.out.println("Số dư không đủ!!!");
+						if(ck.Choice())
+							return false;
+						sc.nextLine();
+					}
+					else
+						if (ck.GioiHanPIN(this))
+							return true;
+						else {
+							System.out.println("---------");
+							this.soDu -= money;
+							this.HChuyenTienPay(listPay.get(this.soDienThoai), money);
+							System.out.println("Chuyển tiền đến tài khoản tiết kiệm" +" \nGD: -" + money + "VND | Số dư hiện tại: "+ soDu + "VND");
+							listPay.get(this.soDienThoai).soDu += money;
+							((TaiKhoanThanhToan) listPay.get(this.soDienThoai)).HNhanTienSave(this, money);
+							System.out.println("Nhấn ENTER để tiếp tục");
+							sc.nextLine();
+							return false;
+						}
+				}
+				catch(Exception e) {
+					System.out.println("---------");
+					System.err.println("Lỗi nhập liệu: "+ e.getMessage());
+					if(ck.Choice())
+						return false;
+					sc.nextLine();
+				}
+			}
+		}
 
 
+	public void HNhanTienPay(TaiKhoanNganHang tkc, double money) {
+		// TODO Auto-generated method stub
+		Calendar ngayHienTai = new GregorianCalendar();
+		ngayHienTai.setTime(Calendar.getInstance().getTime());
+		listHistory.add(dayHistory.format(ngayHienTai.getTime())+" | Nhận tiền từ tài khoản thanh toán | GD: +" + money +" | Số dư hiện tại: "+ soDu +"VND");
+	}
 
+	public void HChuyenTienPay(TaiKhoanNganHang tkn, double money) {
+		// TODO Auto-generated method stub
+		Calendar ngayHienTai = new GregorianCalendar();
+		ngayHienTai.setTime(Calendar.getInstance().getTime());
+		listHistory.add(dayHistory.format(ngayHienTai.getTime())+" | Chuyển tiền đến tài khoản thanh toán | GD: -" + money +" | Số dư hiện tại: "+ soDu +"VND");
+	}
+		
 	@Override
 	public void HGuiTien(double money) {
 		// TODO Auto-generated method stub

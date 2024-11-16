@@ -1,6 +1,5 @@
 package Account;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -132,9 +131,11 @@ public abstract class TaiKhoanNganHang implements History{
             // Khởi tạo số dư ban đầu
             this.soDu = 0;
         } catch (Exception e) {
-            System.out.println("Đã xảy ra lỗi trong quá trình nhập dữ liệu: " + e.getMessage());
+			System.out.println("---------");
+            System.err.println("Đã xảy ra lỗi trong quá trình nhập dữ liệu: " + e.getMessage());
 			if(ck.Choice())
 				return;
+			sc.nextLine();
         }
     }
 	
@@ -152,26 +153,20 @@ public abstract class TaiKhoanNganHang implements History{
 	    System.out.println("Số dư: " + this.soDu + "VND");
 	}
 	
-	public void RePassWord(TaiKhoanNganHang tk)
+	public boolean RePassWord(TaiKhoanNganHang tk)
 	{
 		System.out.println("\n--------------------------------------------------");
 		System.out.println("<<Đổi mật khẩu>>");
 		while(true)
 		{
-			System.out.print("Nhập mật khẩu cũ: ");
-			String mk = sc.nextLine();
-			if(ck.CheckSringEqual(tk.getMatKhau(), mk))
-			{
-				System.out.println("Mật khẩu sai!!!");
-				if(ck.Choice())
-					return;
-			}
+			if (ck.GioiHanPW(this))
+				return true;
 			else
 			{
 				while(true)
 				{
 					System.out.print("Nhập mật khẩu mới: ");
-					mk = sc.nextLine();
+					String mk = sc.nextLine();
 					System.out.print("Nhập lại mật khẩu mới: ");
 					String mk2 = sc.nextLine();
 					if(ck.CheckSringEqual(mk, mk2))
@@ -179,7 +174,7 @@ public abstract class TaiKhoanNganHang implements History{
 						System.out.println("---------");
                 		System.out.println("Mật khẩu không trùng khớp");
 	                    if (ck.Choice()) 
-	                        return;
+	                        return false;
                 	}
 					else
 					{
@@ -188,33 +183,27 @@ public abstract class TaiKhoanNganHang implements History{
 						System.out.println("Đổi mật khẩu thành công");
 						System.out.println("Nhấn ENTER để tiếp tục");
 					    sc.nextLine();
-						return;
+						return false;
 					}
 				}
 			}
 		}
 	}
 	
-	public void RePIN(TaiKhoanNganHang tk)
+	public boolean RePIN(TaiKhoanNganHang tk)
 	{
 		System.out.println("\n--------------------------------------------------");
 		System.out.println("<<Đổi mã PIN>>");
 		while(true)
 		{
-			System.out.print("Nhập mã PIN cũ: ");
-			String mp = sc.nextLine();
-			if(ck.CheckSringEqual(tk.getMaPIN(), mp))
-			{
-				System.out.println("Mã PIN sai!!!");
-				if(ck.Choice())
-					return;
-			}
+			if (ck.GioiHanPIN(this))
+				return true;
 			else
 			{
 				while(true)
 				{
 					System.out.print("Nhập mã PIN mới: ");
-					mp = sc.nextLine();
+					String mp = sc.nextLine();
 					System.out.print("Nhập lại mã PIN mới: ");
 					String mp2 = sc.nextLine();
 					if(ck.CheckSringEqual(mp, mp2))
@@ -222,7 +211,7 @@ public abstract class TaiKhoanNganHang implements History{
 						System.out.println("---------");
                 		System.out.println("Mã PIN không trùng khớp");
 	                    if (ck.Choice()) 
-	                        return;
+	                        return false;
                 	}
 					else
 					{
@@ -231,16 +220,16 @@ public abstract class TaiKhoanNganHang implements History{
 						System.out.println("Đổi mã PIN thành công");
 						System.out.println("Nhấn ENTER để tiếp tục");
 					    sc.nextLine();
-						return;
+						return false;
 					}
 				}
 			}
 		}
 	}
 	
-	public abstract void RutTien();
+	public abstract boolean RutTien();
 	
-	public void GuiTien() {
+	public boolean GuiTien() {
 		while(true)
 		{
 			try {
@@ -250,21 +239,21 @@ public abstract class TaiKhoanNganHang implements History{
 				double money = sc.nextDouble();
 				if(money > 0)
 				{
-					if(ck.GioiHan(this))
-						return;
+					if(ck.GioiHanPIN(this))
+						return true;
 					else
 					{
 						soDu += money;
 						this.HGuiTien(money);
 						System.out.println("---------");
 						System.out.println("<<Thông báo>>");
-						System.out.println("Thành công | Tài khoản: "+ soDienThoai + " - "
+						System.out.println("Gửi tiền thành công | Tài khoản: "+ soDienThoai + " - "
 								+ tenChuTaiKhoan + "\nGD: +" + money +"VND | Số dư hiện tại: "+ soDu +"VND");
 						System.out.println("---------");
 						System.out.println("Nhấn ENTER để tiếp tục");
 					    sc.nextLine();
 					    sc.nextLine();
-						return;
+						return false;
 					}
 				}
 				else
@@ -272,43 +261,20 @@ public abstract class TaiKhoanNganHang implements History{
 					System.out.println("<<Thông báo>>");
 					System.out.println("Số tiền gửi không hợp lệ!!!");
 					if(ck.Choice())
-						return;
-				}
+						return false;
+				} 
 			}
-			catch(Exception e)
+			catch (Exception e) 
 			{
-				System.out.print("Lỗi nhập liệu: "+ e.getMessage());
-				if(ck.Choice())
-					return;
+				System.out.println("---------");
+				System.err.println("Lỗi nhập liệu");
+			    if (ck.Choice())
+				return false;
+			    sc.nextLine();
 			}
 		}
 	}
 
-	public void CongTien(double x) 
-	{
-		if(x <= 0) 
-		{
-			System.out.println("Số tiền ko hợp lệ");
-			return;
-		}
-		this.soDu += x;
-		System.out.println("<<Thông báo>>\n Giao dịch thành công");
-		System.out.println("Tài khoản " + soDienThoai + " - " + tenChuTaiKhoan);
-		System.out.println("GD: +" + x + "VND");
-	}
-	
-	public void TruTien(double x) 
-	{
-		if(x < 0) 
-		{
-			System.out.println("Số tiền ko hợp lệ");
-			return;
-		}
-		this.soDu -= x;
-		System.out.println("<<Thông báo>>\n Giao dịch thành công");
-		System.out.println("Tài khoản " + soDienThoai + " - " + tenChuTaiKhoan);
-		System.out.println("GD: -" + x + "VND");
-	}
 	public void SaveHistory(String hst) {
 		// TODO Auto-generated method stub
 		listHistory.add(hst);

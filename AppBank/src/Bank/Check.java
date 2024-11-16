@@ -66,7 +66,7 @@ public class Check {
 		return !(s1.equals(s2));
 	}
 	
-	public boolean GioiHan(TaiKhoanNganHang tk)
+	public boolean GioiHanPIN(TaiKhoanNganHang tk)
 	{
 		int gh = 4;
 		for (int i = 1; i <= gh; i++) {
@@ -86,7 +86,31 @@ public class Check {
 		}
 		System.out.println("---------");
 		System.out.println("Số lần nhập đã hết!!!");
-		System.out.println("Tạo tài khoản thành công");
+		System.out.println("Nhấn ENTER để tiếp tục");
+	    sc.nextLine();
+		return true;
+	}
+	
+	public boolean GioiHanPW(TaiKhoanNganHang tk)
+	{
+		int gh = 4;
+		for (int i = 1; i <= gh; i++) {
+			System.out.println("---------");
+			System.out.print("Nhập mật khẩu: ");
+			String mp = sc.nextLine();
+	    	if(this.CheckSringEqual(tk.getMatKhau(), mp))
+	    	{
+				System.out.println("---------");
+	    		System.out.println("Mã mật khẩu không đúng!!!\nBạn còn "+ (gh - i) + " lần nhập");
+	    		if(i < gh)
+	    			if (this.Choice()) 
+	    				return true;
+	    	}
+	    	else
+	    		return false;
+		}
+		System.out.println("---------");
+		System.out.println("Số lần nhập đã hết!!!");
 		System.out.println("Nhấn ENTER để tiếp tục");
 	    sc.nextLine();
 		return true;

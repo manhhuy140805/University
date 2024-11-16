@@ -7,10 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-
 import Account.TaiKhoanNganHang;
-import Account.TaiKhoanThanhToan;
-import Account.TaiKhoanTietKiem;
 
 public class RWFileHistory {
 	public static void DocFileHistory(File f, HashMap<String , TaiKhoanNganHang> listPay, HashMap<String , TaiKhoanNganHang> listSave) {

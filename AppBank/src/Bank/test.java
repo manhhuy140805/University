@@ -1,9 +1,6 @@
 package Bank;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import Account.TaiKhoanNganHang;
@@ -22,9 +19,9 @@ public class test {
 		char choice = 0;
 		RWFileAccount.DocFile(FileAccount, FileHistory, listPay.list, listSave.list);
 		RWFileHistory.DocFileHistory(FileHistory, listPay.list, listSave.list);
-		try
+		while(true)
 		{
-			while(true)
+			try
 			{
 				System.out.println("\n--------------------------------------------------");
 				System.out.println("<<Trang Chủ>>");
@@ -39,7 +36,6 @@ public class test {
 					case '1' : listPay.LogIn(listSave);break;
 					case '2' : listPay.SignIn();break;
 					case '0' : {
-//						listPay.CloseFileData(f);
 						RWFileAccount.GhiFile(FileAccount, FileHistory, listPay.list, listSave.list);
 						RWFileHistory.GhiFileHistory(FileHistory, listPay.list, listSave.list);
 						return;
@@ -48,17 +44,16 @@ public class test {
 						System.out.println("---------");
 						System.out.println("Lựa chọn của bạn không tồn tại!!!"); 
 						if(ck.Choice())
-							break;
-						else 
 							return;
 				}
 			}
-		}
-		catch(Exception e)
-		{
-			System.out.print("Lỗi nhập liệu: "+ e.getMessage());
-			if(ck.Choice())
-				return;
+			catch(Exception e)
+			{
+				System.out.println("---------");
+			    System.err.println("Lỗi nhập liệu");
+			    if (ck.Choice())
+			    	return;
+			}
 		}
 	}
 }

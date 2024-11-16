@@ -3,7 +3,6 @@ package Bank;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Scanner;
-
 import Account.TaiKhoanNganHang;
 import Account.TaiKhoanThanhToan;
 import Account.TaiKhoanTietKiem;
@@ -35,6 +34,7 @@ public class ListAccount {
 				System.out.println("Số điện thoại không hợp lệ!!!");
 				if(ck.Choice())
 					return;
+				System.out.println("---------");
 			}
 			else
 				if(ck.CheckExists(sdt, list))
@@ -43,6 +43,7 @@ public class ListAccount {
 					System.out.println("Số điện thoại đã được đăng ký!!!");
 					if(ck.Choice())
 						return;
+					System.out.println("---------");
 				}
 				else
 					break;
@@ -70,6 +71,7 @@ public class ListAccount {
 					String mk = sc.nextLine();
 					if(ck.CheckPasswordLogIn(stk, mk, list))
 					{
+						System.out.println("---------");
 						System.out.println("Mật khẩu sai!!!");
 						if(ck.Choice())
 							return;
@@ -87,6 +89,7 @@ public class ListAccount {
 				}
 				else
 				{
+					System.out.println("---------");
 					System.out.println("Số điện thoại chưa được đăng ký!!!");
 					if(ck.Choice())
 						return;
@@ -95,9 +98,123 @@ public class ListAccount {
 		}
 		catch(Exception e)
 		{
-			System.out.print("Lỗi nhập liệu: "+ e.getMessage());
+			System.out.println("---------");
+			System.err.println("Lỗi nhập liệu: "+ e.getMessage());
 			if(ck.Choice())
 				return;
+			sc.nextLine();
+		}
+	}
+	
+public boolean DeleteAccountPay(TaiKhoanNganHang tk)
+	{
+		System.out.println("\n--------------------------------------------------");
+		System.out.println("\n<<Xóa tài khoản>>");
+		if(this.list.containsKey(tk.getSoDienThoai()))
+		{
+			System.out.println("Bạn cần xóa tài khoản tiết kiệm trước!!!");
+			System.out.println("---------");
+			System.out.println("nhấn phím ENTER để thoát");
+			sc.nextLine();
+			return false;
+		}
+		if(tk.getSoDu()>0)
+		{
+			System.out.println("Hiện tại số dư tài khoản của bạn đang lớn hơn 0");
+			System.out.println("Bạn cần rút ra hết trước khi xóa tài khoản");
+			System.out.println("---------");
+			System.out.println("nhấn phím ENTER để thoát");
+			sc.nextLine();
+			return false;
+		}
+		if(tk.getSoDu()<0)
+		{
+			System.out.println("Hiện tại hiện tại bạn đang nợ tín dụng" + tk.getSoDu());
+			System.out.println("Bạn cần thanh toán khoản nợ trước khi xóa tài khoản");
+			System.out.println("---------");
+			System.out.println("nhấn phím ENTER để thoát");
+			sc.nextLine();
+			return false;
+		}
+		System.out.println("Bạn muốn xóa tài khoản?");
+		System.out.println("1: Xác nhận xóa tài khoản  \n0: Thoát");
+		System.out.println("---------");
+		System.out.print("Nhập lựa chọn của bạn: ");
+		char choice = sc.nextLine().charAt(0);
+		if(choice == '0')
+			return false;
+		while(true)
+		{
+			if (ck.GioiHanPW((TaiKhoanNganHang) list.get(tk.getSoDienThoai()))) 
+			    return true;
+			else
+				if (ck.GioiHanPIN((TaiKhoanNganHang) list.get(tk.getSoDienThoai())))
+				    return true;
+				else
+				{
+					System.out.println("Bạn muốn xóa tài khoản?");
+					System.out.println("1: Xác nhận xóa tài khoản  \n0: Thoát");
+					System.out.println("---------");
+					System.out.print("Nhập lựa chọn của bạn: ");
+					choice = sc.nextLine().charAt(0);
+					if(choice == '1')
+					{
+						list.remove(tk.getSoDienThoai());
+						System.out.println("---------");
+						System.out.println("Xóa tài khoản thành công");
+						System.out.println("nhấn phím ENTER để thoát");
+						sc.nextLine();
+						return true;
+					}
+					else 
+						return false;
+				}
+		}
+	}
+	
+	public boolean DeleteAccountSave(TaiKhoanNganHang tk)
+	{
+		System.out.println("\n--------------------------------------------------");
+		System.out.println("\n<<Xóa tài khoản tiết kiệm>>");
+		if(tk.getSoDu()>0)
+		{
+			System.out.println("Hiện tại số dư tài khoản của bạn đang lớn hơn 0");
+			System.out.println("Bạn cần rút ra hết trước khi xóa tài khoản");
+			System.out.println("---------");
+			System.out.println("nhấn phím ENTER để thoát");
+			sc.nextLine();
+			return false;
+		}
+		System.out.println("Bạn muốn xóa tài khoản?");
+		System.out.println("1: Xác nhận xóa tài khoản  \n0: Thoát");
+		System.out.println("---------");
+		System.out.print("Nhập lựa chọn của bạn: ");
+		char choice = sc.nextLine().charAt(0);
+		if(choice == '0')
+			return false;
+		while(true)
+		{
+			if (ck.GioiHanPIN((TaiKhoanNganHang) list.get(tk.getSoDienThoai())))
+				    return true;
+			else
+			{
+				System.out.println("Bạn muốn xóa tài khoản?");
+				System.out.println("1: Xác nhận xóa tài khoản  \n0: Thoát");
+				System.out.println("---------");
+				System.out.print("Nhập lựa chọn của bạn: ");
+				choice = sc.nextLine().charAt(0);
+				if(choice == '1')
+				{
+					list.remove(tk.getSoDienThoai());
+					System.out.println("---------");
+					System.out.println("Xóa tài khoản thành công");
+					System.out.println("nhấn phím ENTER để thoát");
+					sc.nextLine();
+					return true;
+				}
+				else 
+					return false;
+			}
 		}
 	}
 	
@@ -114,24 +231,28 @@ public class ListAccount {
 				System.out.println("3. Biến động số dư");
 				System.out.println("4. Gửi tiền");
 				System.out.println("5. Rút tiền");
-				System.out.println("6. Đổi mật khẩu");
-				System.out.println("7. Đổi mã PIN");
-				System.out.println("8. Tài khoản tiết kiệm");
+				System.out.println("6. Gửi tiết kiệm");
+				System.out.println("7. Đổi mật khẩu");
+				System.out.println("8. Đổi mã PIN");
+				System.out.println("9. Tài khoản tiết kiệm");
+				System.out.println("10. Xóa tài khoản");
 				System.out.println("0. Đăng xuất");
 				System.out.println("---------");
 				System.out.print("Nhập lựa chọn của bạn: ");
-				char choice = sc.nextLine().charAt(0);
+				String choice = sc.nextLine();
 				switch(choice)
 				{
-					case '1' : tk.Pay(this.list);break;
-					case '2' : tk.KiemTraSoDu();break;
-					case '3' : tk.InHistory();break;
-					case '4' : tk.GuiTien();break;
-					case '5' : tk.RutTien();break;
-					case '6' : tk.RePassWord(tk);break;
-					case '7' : tk.RePIN(tk);break;
-					case '8' : listSave.TaiKhoanTietKiem(tk);break;
-					case '0' : return;
+					case "1" : if(tk.Pay(this.list))return;break;
+					case "2" : tk.KiemTraSoDu();break;
+					case "3" : tk.InHistory();break;
+					case "4" : if(tk.GuiTien())return;break;
+					case "5" : if(tk.RutTien())return;break;
+					case "6" : if(tk.PayToSave(listSave.list))return;break;
+					case "7" : if(tk.RePassWord(tk))return;break;
+					case "8" : if(tk.RePIN(tk))return;break;
+					case "9" : listSave.TaiKhoanTietKiem(tk, this);break;
+					case "10" : if(this.DeleteAccountPay(tk))return;break;
+					case "0" : return;
 					default : 
 						System.out.println("---------");
 						System.out.println("Lựa chọn của bạn không tồn tại!!!"); 
@@ -144,101 +265,105 @@ public class ListAccount {
 		}
 		catch(Exception e)
 		{
-			System.out.println("Lỗi nhập liệu: "+ e.getMessage());
+			System.out.println("---------");
+			System.err.println("Lỗi nhập liệu: "+ e.getMessage());
 			if(ck.Choice())
 				return;
+			sc.nextLine();
 		}
 	}
 	
-	public void TaiKhoanTietKiem(TaiKhoanThanhToan tktt) throws ParseException
+	public void TaiKhoanTietKiem(TaiKhoanThanhToan tktt, ListAccount listPay) throws ParseException
 	{
 		char choice;
 		System.out.println("\n--------------------------------------------------");
 		System.out.println("<<TÀI KHOẢN TIẾT KIỆM>>");
 		if(!list.containsKey(tktt.getSoDienThoai()))
 		{
-			System.out.println("---------");
-			System.out.println("Bạn có muốn mở tài khoản tiết kiệm không?");
-			System.out.println("1. Mở tài khoản tiết kiệm");
-			System.out.println("0. thoát");
-			System.out.println("---------");
-			System.out.print("Nhập lựa chọn của bạn: ");
-			choice = sc.nextLine().charAt(0);
-			if(choice == '1')
-			{
+		    System.out.println("---------");
+		    System.out.println("Bạn có muốn mở tài khoản tiết kiệm không?");
+		    System.out.println("1. Mở tài khoản tiết kiệm");
+		    System.out.println("0. thoát");
+		    System.out.println("---------");
+		    System.out.print("Nhập lựa chọn của bạn: ");
+		    choice = sc.nextLine().charAt(0);
+		    if (choice == '1') 
+		    {
 				System.out.println("\n--------------------------------------------------");
 				System.out.println("<<Mở tài khoản tiết kiệm>>");
 				System.out.print("Nhập mã pin cho tài khoản tiết kiệm: ");
 				String maPIN = sc.nextLine();
 				TaiKhoanNganHang tktk = new TaiKhoanTietKiem(tktt.getSoDienThoai(), tktt.getMatKhau(), tktt.getTenChuTaiKhoan(), 0, maPIN);
 				((Account.TaiKhoanTietKiem) tktk).ChonKyHan();
-				if(((Account.TaiKhoanTietKiem) tktk).getLaiXuat() == 0)
-					return;
+				if (((Account.TaiKhoanTietKiem) tktk).getLaiXuat() == 0)
+				    return;
 				list.put(tktt.getSoDienThoai(), tktk);
 				System.out.println("---------");
 				System.out.println("Mở tài khoản thành công");
 				System.out.println("Nhấn ENTER để tiếp tục");
 				sc.nextLine();
-				this.FeatureSave((TaiKhoanTietKiem) list.get(tktt.getSoDienThoai()));
-	        	return;
-			}
-			else
+				this.FeatureSave((TaiKhoanTietKiem) list.get(tktt.getSoDienThoai()), listPay);
 				return;
+		    } 
+		    else
+		    	return;
 		}
 		else
 		{
-			while(true)
-			{
-				if(ck.GioiHan((TaiKhoanNganHang) list.get(tktt.getSoDienThoai())))
-		        {
-		        	if(ck.Choice())
-						return;
-		        }
-		        else
-		        {
-		        	this.FeatureSave((TaiKhoanTietKiem) list.get(tktt.getSoDienThoai()));
-		        	return;
-		        }
-				
-			}
+		    while (true) 
+		    {
+				if (ck.GioiHanPIN((TaiKhoanNganHang) list.get(tktt.getSoDienThoai()))) 
+				{
+				    if (ck.Choice())
+				    	return;
+				} 
+				else 
+				{
+				    this.FeatureSave((TaiKhoanTietKiem) list.get(tktt.getSoDienThoai()), listPay);
+				    return;
+				}
+		    }
 		}
 	}
 	
-	public void FeatureSave(TaiKhoanTietKiem tk)
+	public void FeatureSave(TaiKhoanTietKiem tk, ListAccount listPay)
 	{
-		char choice;
-		while(true)
-		{
-			((Account.TaiKhoanTietKiem) tk).TinhLai();
+	    char choice;
+	    while (true) 
+	    {
+			tk.TinhLai();
 			System.out.println("\n--------------------------------------------------");
-			System.out.println("<<Sổ tiết kiệm số: "+ tk.getSoDienThoai()+">>");
+			System.out.println("<<Sổ tiết kiệm số: " + tk.getSoDienThoai() + ">>");
 			System.out.println("1. Kiểm tra thông tin sổ tiết kiệm");
 			System.out.println("2. Kiểm tra số dư");
 			System.out.println("3. Biến động số dư");
 			System.out.println("4. Gửi tiền");
 			System.out.println("5. Rút tiền");
 			System.out.println("6. Tính tổng tiền lãi");
+			System.out.println("7. Xóa tài khoản");
 			System.out.println("0. Thoát");
 			System.out.println("---------");
 			System.out.print("Nhập lựa chọn của bạn: ");
 			choice = sc.nextLine().charAt(0);
-			switch(choice)
+			switch (choice) 
 			{
-				case '1' : tk.KiemTraThongTin();;break;
-				case '2' : tk.KiemTraSoDu();break;
-				case '3' : tk.InHistory();break;
-				case '4' : tk.GuiTien();break;
-				case '5' : tk.RutTien();break;
-				case '6' : ((Account.TaiKhoanTietKiem) tk).TinhTienLai();break;		
-				case '0' : return;
-				default : 
-					System.out.println("---------");
-					System.out.println("Lựa chọn của bạn không tồn tại!!!"); 
-					if(ck.Choice())
-						break;
-					else
-						return;
+	        		case '1': tk.KiemTraThongTin(); break;
+	        		case '2': tk.KiemTraSoDu(); break;
+	        		case '3': tk.InHistory();  break;
+	        		case '4': if(tk.GuiTien())return;break;
+	        		case '5': if(tk.RutTien())return;break;
+					case '6': if(tk.SaveToPay(listPay.list))return;break;
+	        		case '7': tk.TinhTienLai();break;
+	        		case '8': if(this.DeleteAccountSave(tk))return;break;
+	        		case '0':return;
+	        		default:
+	        		    System.out.println("---------");
+	        		    System.out.println("Lựa chọn của bạn không tồn tại!!!");
+	        		    if (ck.Choice())
+	        		    	break;
+	        		    else
+	        		    	return;
 			}
-		}
+	    }
 	}
 }
