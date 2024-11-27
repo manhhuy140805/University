@@ -1,0 +1,18 @@
+//tài khoản test
+	SDT: 1
+	MK : 123
+	
+	SDT: 2
+	MK : 123
+	
+//tài khoản quản lí
+	SDT: 3
+	MK : 123
+	
+//tài khoản nhân viên chính thức
+	SDT: 4
+	MK : 123
+	
+//tài khoản nhân viên thời vụ
+	SDT: 5
+	MK : 123

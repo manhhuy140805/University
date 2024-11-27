@@ -1,18 +1,15 @@
-package Bank;
+package Bank_Feature;
 
 import java.io.File;
 import java.util.Scanner;
-import File.RWFileAccount;
-import File.RWFileHistory;
 
-public class test {
-	public static void main(String[] args){
-		ListAccount listPay = new ListAccount(1);
-		ListAccount listSave = new ListAccount(2);
-		File FileAccount = new File("Account.txt");
-		File FileHistory = new File("History.txt");
-		RWFileAccount.DocFile(FileAccount, FileHistory, listPay.list, listSave.list);
-		RWFileHistory.DocFileHistory(FileHistory, listPay.list, listSave.list);
+import Bank_File.RWFileAccount;
+import Bank_File.RWFileHistory;
+import Tools.Check;
+
+public class MainBank {
+
+	public static void HomeBank(ListAccount listPay, ListAccount listSave, File FileAccount, File FileHistory) {
 		Scanner sc = new Scanner(System.in);
 		Check ck = new Check();
 		char choice = 0;
@@ -21,7 +18,8 @@ public class test {
 			try
 			{
 				System.out.println("\n--------------------------------------------------");
-				System.out.println("<<Trang Chủ>>");
+				System.out.println("E-BANK | <<TRANG CHỦ>>");
+				System.out.println("---------");
 				System.out.println("1. Đăng Nhập");
 				System.out.println("2. Đăng ký");
 				System.out.println("0. Thoát");
@@ -32,11 +30,7 @@ public class test {
 				{
 					case '1' : listPay.LogIn(listSave);break;
 					case '2' : listPay.SignIn();break;
-					case '0' : {
-						RWFileAccount.GhiFile(FileAccount, FileHistory, listPay.list, listSave.list);
-						RWFileHistory.GhiFileHistory(FileHistory, listPay.list, listSave.list);
-						return;
-					}
+					case '0' : return;
 					default:
 						System.out.println("---------");
 						System.out.println("Lựa chọn của bạn không tồn tại!!!"); 
@@ -54,4 +48,3 @@ public class test {
 		}
 	}
 }
-			

@@ -1,14 +1,16 @@
-package Bank;
+package Bank_Feature;
 
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Scanner;
-import Account.TaiKhoanNganHang;
-import Account.TaiKhoanThanhToan;
-import Account.TaiKhoanTietKiem;
+
+import Bank_Account.TaiKhoanNganHang;
+import Bank_Account.TaiKhoanThanhToan;
+import Bank_Account.TaiKhoanTietKiem;
+import Tools.Check;
 
 public class ListAccount {
-	protected HashMap list;
+	public HashMap list;
 	Scanner sc = new Scanner(System.in);
 	Check ck = new Check();
 
@@ -23,7 +25,7 @@ public class ListAccount {
 		TaiKhoanNganHang tk = new TaiKhoanThanhToan();
 		String sdt;
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<ĐĂNG KÝ TÀI KHOẢN MỚI>>");
+		System.out.println("E-BANK | <<ĐĂNG KÝ TÀI KHOẢN MỚI>>");
 		while(true)
 		{
 			System.out.print("Nhập số điện thoại(sau này sẽ là số tài khoản của bạn): ");
@@ -63,7 +65,7 @@ public class ListAccount {
 			while(true)
 			{
 				System.out.println("\n--------------------------------------------------");
-				System.out.println("<<ĐĂNG NHẬP>>");
+				System.out.println("E-BANK | <<ĐĂNG NHẬP>>");
 				System.out.print("Nhập số tài khoản: ");
 				String stk = sc.nextLine();
 				if(ck.CheckExists(stk, list))
@@ -110,7 +112,7 @@ public class ListAccount {
 public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 	{
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("\n<<Xóa tài khoản>>");
+		System.out.println("\nE-BANK | <<Xóa tài khoản>>");
 		if(this.list.containsKey(tk.getSoDienThoai()))
 		{
 			System.out.println("Bạn cần xóa tài khoản tiết kiệm trước!!!");
@@ -176,7 +178,7 @@ public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 	public boolean DeleteAccountSave(TaiKhoanNganHang tk)
 	{
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("\n<<Xóa tài khoản tiết kiệm>>");
+		System.out.println("\nE-BANK | <<Xóa tài khoản tiết kiệm>>");
 		if(tk.getSoDu()>0)
 		{
 			System.out.println("Hiện tại số dư tài khoản của bạn đang lớn hơn 0");
@@ -225,6 +227,7 @@ public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 			while(true)
 			{
 				System.out.println("\n--------------------------------------------------");
+				System.out.println("---<< E-BANK >>---");
 				System.out.println("Số tài khoản: "+ tk.getSoDienThoai() +"\nChủ tài khoản: "+ tk.getTenChuTaiKhoan());
 				System.out.println("---------");
 				System.out.println("1. Chuyển khoản");
@@ -257,10 +260,9 @@ public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 					default : 
 						System.out.println("---------");
 						System.out.println("Lựa chọn của bạn không tồn tại!!!"); 
-						if(ck.Choice())
-							break;
-						else
-							return;
+						System.out.println("nhấn phím ENTER để thoát");
+						sc.nextLine();
+						break;
 				}
 			}
 		}
@@ -278,7 +280,7 @@ public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 	{
 		char choice;
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<TÀI KHOẢN TIẾT KIỆM>>");
+		System.out.println("E-BANK | <<TÀI KHOẢN TIẾT KIỆM>>");
 		if(!list.containsKey(tktt.getSoDienThoai()))
 		{
 		    System.out.println("---------");
@@ -291,12 +293,12 @@ public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 		    if (choice == '1') 
 		    {
 				System.out.println("\n--------------------------------------------------");
-				System.out.println("<<Mở tài khoản tiết kiệm>>");
+				System.out.println("E-BANK | <<Mở tài khoản tiết kiệm>>");
 				System.out.print("Nhập mã pin cho tài khoản tiết kiệm: ");
 				String maPIN = sc.nextLine();
 				TaiKhoanNganHang tktk = new TaiKhoanTietKiem(tktt.getSoDienThoai(), tktt.getMatKhau(), tktt.getTenChuTaiKhoan(), 0, maPIN);
-				((Account.TaiKhoanTietKiem) tktk).ChonKyHan();
-				if (((Account.TaiKhoanTietKiem) tktk).getLaiXuat() == 0)
+				((Bank_Account.TaiKhoanTietKiem) tktk).ChonKyHan();
+				if (((Bank_Account.TaiKhoanTietKiem) tktk).getLaiXuat() == 0)
 				    return;
 				list.put(tktt.getSoDienThoai(), tktk);
 				System.out.println("---------");
@@ -334,6 +336,7 @@ public boolean DeleteAccountPay(TaiKhoanNganHang tk)
 	    {
 			tk.TinhLai();
 			System.out.println("\n--------------------------------------------------");
+			System.out.println("---<< E-BANK >>---");
 			System.out.println("<<Sổ tiết kiệm số: " + tk.getSoDienThoai() + ">>");
 			System.out.println("1. Kiểm tra thông tin sổ tiết kiệm");
 			System.out.println("2. Kiểm tra số dư");

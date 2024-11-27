@@ -1,11 +1,11 @@
-package Account;
+package Bank_Account;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Bank.Check;
-import Interface.History;
+import Bank_Interface.History;
+import Tools.Check;
 
 public abstract class TaiKhoanNganHang implements History{
 	protected String soDienThoai;
@@ -137,7 +137,7 @@ public abstract class TaiKhoanNganHang implements History{
 				return true;
 			sc.nextLine();
         }
-        return false;
+		return false;
     }
 	
 	public void KiemTraThongTin() {
@@ -148,7 +148,7 @@ public abstract class TaiKhoanNganHang implements History{
 	
 	public void KiemTraSoDu() {
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<KIỂM TRA SỐ DƯ>>");
+		System.out.println("E-BANK | <<KIỂM TRA SỐ DƯ>>");
 	    System.out.println("Số điện thoại (số tài khoản): " + this.soDienThoai);
 	    System.out.println("Tên chủ tài khoản: " + this.tenChuTaiKhoan);
 	    System.out.println("Số dư: " + this.soDu + "VND");
@@ -157,7 +157,7 @@ public abstract class TaiKhoanNganHang implements History{
 	public boolean RePassWord(TaiKhoanNganHang tk)
 	{
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<Đổi mật khẩu>>");
+		System.out.println("E-BANK | <<Đổi mật khẩu>>");
 		while(true)
 		{
 			if (ck.GioiHanPW(this))
@@ -194,7 +194,7 @@ public abstract class TaiKhoanNganHang implements History{
 	public boolean RePIN(TaiKhoanNganHang tk)
 	{
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<Đổi mã PIN>>");
+		System.out.println("E-BANK | <<Đổi mã PIN>>");
 		while(true)
 		{
 			if (ck.GioiHanPIN(this))
@@ -235,7 +235,7 @@ public abstract class TaiKhoanNganHang implements History{
 		{
 			try {
 				System.out.println("\n--------------------------------------------------");
-				System.out.println("<<GỬI TIỀN>>");
+				System.out.println("E-BANK | <<GỬI TIỀN>>");
 				System.out.print("Nhập số tiền bạn muốn gửi: ");
 				double money = sc.nextDouble();
 				if(money > 0)
@@ -287,7 +287,7 @@ public abstract class TaiKhoanNganHang implements History{
 	public void InHistory() 
 	{
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<BIẾN ĐỘNG SỐ DƯ>>");
+		System.out.println("E-BANK | <<BIẾN ĐỘNG SỐ DƯ>>");
 		for (String string : listHistory) {
 			System.out.println(string);
 		}

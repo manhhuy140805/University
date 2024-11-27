@@ -1,10 +1,10 @@
-package Account;
+package Bank_Account;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-import Bank.Check;
+import Tools.Check;
 
 public class TaiKhoanThanhToan extends TaiKhoanNganHang{
 	private double hanMucThauChi = 1000000;
@@ -48,7 +48,7 @@ public class TaiKhoanThanhToan extends TaiKhoanNganHang{
 		// TODO Auto-generated method stub
 		Check ch = new Check();
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<RÚT TIỀN>>");
+		System.out.println("E-BANK | <<RÚT TIỀN>>");
 		System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
 		System.out.println("Hạn mức thấu chi: "+ this.hanMucThauChi + "VND");
 		System.out.println("Số dư khả dụng: "+ (this.soDu + this.hanMucThauChi) + "VND");
@@ -98,7 +98,7 @@ public class TaiKhoanThanhToan extends TaiKhoanNganHang{
 	{
 		String stk;
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<Chuyển tiền>>");
+		System.out.println("E-BANK | <<Chuyển tiền>>");
 		System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
 		System.out.println("Hạn mức thấu chi: "+ this.hanMucThauChi + "VND");
 		System.out.println("Số dư khả dụng: "+ (this.soDu + this.hanMucThauChi) + "VND");
@@ -178,7 +178,7 @@ public class TaiKhoanThanhToan extends TaiKhoanNganHang{
 	public boolean PayToSave(HashMap<String , TaiKhoanNganHang> listSave)
 	{
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<Chuyển tiền đến tài khoản tiết kiệm>>");
+		System.out.println("E-BANK | <<Chuyển tiền đến tài khoản tiết kiệm>>");
 		System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
 		System.out.println("Hạn mức thấu chi: "+ this.hanMucThauChi + "VND");
 		System.out.println("Số dư khả dụng: "+ (this.soDu + this.hanMucThauChi) + "VND");

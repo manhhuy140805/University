@@ -1,4 +1,4 @@
-package Account;
+package Bank_Account;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Bank.Check;
+import Tools.Check;
 
 
 public class TaiKhoanTietKiem extends TaiKhoanNganHang{
@@ -96,7 +96,7 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 	public void KiemTraThongTin() {
 		// TODO Auto-generated method stub
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<THÔNG TIN SỔ TIẾT KIỆM>>");
+		System.out.println("E-BANK | <<THÔNG TIN SỔ TIẾT KIỆM>>");
 		super.KiemTraThongTin();
 		System.out.println("Kỳ hạn: "+ kyHan);
 		System.out.println("Lãi suất: "+ (laiSuat/100) +"%");
@@ -121,7 +121,7 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 		// TODO Auto-generated method stub
 		Check ch = new Check();
 		System.out.println("\n--------------------------------------------------");
-		System.out.println("<<RÚT TIỀN>>");
+		System.out.println("E-BANK | <<RÚT TIỀN>>");
 		System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
 		while(true)
 		{
@@ -230,7 +230,7 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 	                soDu = soDu * Math.pow(1 + laiSuat, (int) (soky / 30));
 	                System.out.println("Hũ tiết kiệm hiện tại có: " + soDu);
 	                hst += "Hũ tiết kiệm hiện tại có: " + soDu;
-	                listHistory.add(dayHistory.format(ngayHienTai.getTime())+" | "+hst);
+	                listHistory.add(dayHistory.format(ngayHienTai)+" | "+hst);
 	            }
 	            break;
 	        case "3 Tháng":
@@ -353,7 +353,7 @@ public class TaiKhoanTietKiem extends TaiKhoanNganHang{
 		public boolean SaveToPay(HashMap<String , TaiKhoanNganHang> listPay)
 		{
 			System.out.println("\n--------------------------------------------------");
-			System.out.println("<<Chuyển tiền đến tài khoản tiết kiệm>>");
+			System.out.println("E-BANK | <<Chuyển tiền đến tài khoản tiết kiệm>>");
 			System.out.println("Số dư tài khoản: "+ this.soDu + "VND");
 			while(true)
 			{
